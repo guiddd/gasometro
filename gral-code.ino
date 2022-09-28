@@ -10,7 +10,10 @@
 
 Adafruit_BMP085 bmp;
 
-LiquidCrystal_I2C lcd(0x27, 16, 2); 
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+#define I2C_SDA 33
+#define I2C_SCL 32
+TwoWire I2CBME = TwoWire(0);
 
 unsigned long now1 = 0;
 unsigned long lastMeasure = 0;
@@ -273,6 +276,9 @@ void setup()
   lcd.init();                     
   lcd.backlight();
   lcd.clear();
+  
+  I2CBME.begin(I2C_SDA, I2C_SCL, 400000);
+  status = bme.begin(0x76, &I2CBME);//cambiar valores?
 }
 
 void loop()
